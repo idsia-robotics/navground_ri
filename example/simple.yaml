@@ -1,0 +1,67 @@
+steps: 3000
+time_step: 0.04
+scenario:
+  type: IndoorGML
+  map_path: simple.xml
+  groups:
+    -
+      type: wheelchair
+      color: red
+      position: [[7, 3], [4, 24], [2, 10], [2, 23]]
+      orientation: [0, 3.14, 0, 0]
+      number: 3
+      speed_tolerance: 0.02
+      radius: 0.5
+      kinematics:
+        type: 2WDiff
+        wheel_axis: 0.5
+        max_speed: 1.2
+      behavior:
+        type: HL
+        optimal_speed: 1.0
+        optimal_angular_speed: 1.0
+        horizon: 15.0
+        safety_margin: 0.2
+        barrier_angle: 0.75
+      state_estimation:
+        type: Bounded
+        range: 10.0
+      task:
+        type: WaypointsWithRIPlanner
+        layer_name: L1
+        waypoints: [[7, 24], [8, 3], [8, 8]]
+        loop: true
+        tolerance: 0.75
+        opt_tol: 0.01
+        curve: 'bezier_4'
+        threaded: false
+    -
+      type: human
+      position: [[4, 10], [7.3, 20]]
+      orientation: [0, 0]
+      number: 2
+      speed_tolerance: 0.02
+      radius: 0.4
+      kinematics:
+        type: Ahead
+        max_speed: 1.5
+        max_angular_speed: 3.0
+      behavior:
+        type: HL
+        optimal_speed: 1.2
+        optimal_angular_speed: 1.0
+        horizon: 10.0
+        safety_margin: 0.2
+        barrier_angle: 0.75
+      state_estimation:
+        type: Bounded
+        range: 10.0
+      task:
+        type: WaypointsWithRIPlanner
+        layer_name: L1
+        waypoints: [[[7, 24], [7.5, 12], [8, 8]], [[7, 24], [7.5, 20], [8, 3]]]
+        loop: true
+        tolerance: 0.75
+        opt_tol: 0.01
+        curve: line
+        threaded: false
